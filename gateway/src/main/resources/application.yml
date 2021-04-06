@@ -1,0 +1,39 @@
+server:
+  port: 80 # 服务端口
+
+spring:
+  application:
+    name: service-gateway # 服务名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # nacos服务地址
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]': # 匹配所有请求
+            AllowCredentials: true  #是否允许携带cookie
+            allowedOrigins: "*" #跨域处理 允许所有的域
+            allowedHeaders: "*" #允许携带的头
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      discovery:
+        locator:
+          enabled: true # gateway可以发现nacos中的微服务，并自动生成转发路由
+
+      routes:
+      - id: service-core
+        uri: lb://srbCore
+        predicates:
+        - Path=/*/core/**
+      - id: service-sms
+        uri: lb://srbSms
+        predicates:
+        - Path=/*/sms/**
+      - id: service-oss
+        uri: lb://srbOss
+        predicates:
+        - Path=/*/oss/**
