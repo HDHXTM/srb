@@ -5,3 +5,5 @@
 mySrb.iml
 /target/
 *.iml
+/test/
+/service-sms

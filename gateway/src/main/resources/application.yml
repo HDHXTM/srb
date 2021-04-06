@@ -33,7 +33,7 @@ spring:
         uri: lb://srbSms
         predicates:
         - Path=/*/sms/**
-      - id: service-oss
-        uri: lb://srbOss
+      - id: service-file
+        uri: lb://srbFS
         predicates:
         - Path=/*/oss/**

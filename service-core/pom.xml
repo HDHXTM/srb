@@ -16,6 +16,11 @@
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>mySrb</groupId>
+            <artifactId>rabbitMq</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -76,16 +81,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <!-- spring boot redis缓存引入 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <!-- 缓存连接池-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
+
 
         <!-- redis 存储 json序列化 -->
         <dependency>
@@ -155,6 +151,9 @@
             <version>1.8.9</version>
         </dependency>
         <!-- swagger2 end -->
+
+
+
     </dependencies>
     <build>
         <!-- 项目打包时会将java目录中的*.xml文件也进行打包 -->

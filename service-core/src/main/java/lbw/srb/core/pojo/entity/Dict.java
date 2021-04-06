@@ -1,5 +1,7 @@
 package lbw.srb.core.pojo.entity;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,34 +27,43 @@ public class Dict implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id")
-      @TableId(value = "id", type = IdType.AUTO)
+    @ExcelProperty("id")
+    @TableId(value = "id", type = IdType.INPUT)
     private Long id;
 
     @ApiModelProperty(value = "上级id")
+    @ExcelProperty("上级id")
     private Long parentId;
 
     @ApiModelProperty(value = "名称")
+    @ExcelProperty("名称")
     private String name;
 
     @ApiModelProperty(value = "值")
+    @ExcelProperty("值")
     private Integer value;
 
     @ApiModelProperty(value = "编码")
+    @ExcelProperty("编码")
     private String dictCode;
 
     @ApiModelProperty(value = "创建时间")
+    @ExcelIgnore
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime; //代替了 Date    “createTime”：“2020-01-01 01:01:01”
 
     @ApiModelProperty(value = "更新时间")
+    @ExcelIgnore
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "删除标记（0:不可用 1:可用）")
+    @ExcelIgnore
     @TableField("is_deleted")
     @TableLogic
     private Boolean deleted;
 
     @TableField(exist = false) //表达逻辑概念的属性，和物理表没有关系，当前字段不存在于物理表中
+    @ExcelIgnore
     private boolean hasChildren;
 }

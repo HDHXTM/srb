@@ -30,7 +30,7 @@ public class AdminIntegralGradeController {
     public R listAll(){
         QueryWrapper<IntegralGrade> wrapper = new QueryWrapper<>();
 //        不能带更新，创建时间，不然updateTime就更新不了，，
-        wrapper.select("id","integralStart","integralEnd","borrowAmount");
+        wrapper.select("id","integral_start","integral_end","borrow_amount");
         return R.ok().data("list",integralGradeService.list(wrapper));
     }
 

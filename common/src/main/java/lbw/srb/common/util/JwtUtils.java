@@ -6,15 +6,21 @@ import lbw.srb.common.exception.BusinessException;
 import lbw.srb.common.result.ResponseEnum;
 import org.springframework.util.StringUtils;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 
 public class JwtUtils {
 
     private static long tokenExpiration = 24*60*60*1000;
-    private static String tokenSignKey = "A1t2g3uigu123456";
+    private static String tokenSignKey = "crf4trnygyuguggy";
+    
 
     private static Key getKeyInstance(){
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -22,12 +28,13 @@ public class JwtUtils {
         return new SecretKeySpec(bytes,signatureAlgorithm.getJcaName());
     }
 
-    public static String createToken(Long userId, String userName) {
+    public static String createToken(Long userId, String userName,String userType) {
         String token = Jwts.builder()
                 .setSubject("SRB-USER")
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
                 .claim("userId", userId)
                 .claim("userName", userName)
+                .claim("userType",userType)
                 .signWith(SignatureAlgorithm.HS512, getKeyInstance())
                 .compressWith(CompressionCodecs.GZIP)
                 .compact();
@@ -63,6 +70,11 @@ public class JwtUtils {
         return (String)claims.get("userName");
     }
 
+    public static String getUserType(String token){
+        Claims claims = getClaims(token);
+        return (String)claims.get("userType");
+    }
+
     public static void removeToken(String token) {
         //jwttoken无需删除，客户端扔掉即可。
     }
@@ -85,5 +97,6 @@ public class JwtUtils {
             throw new BusinessException(ResponseEnum.LOGIN_AUTH_ERROR);
         }
     }
+
 }
 

@@ -71,6 +71,7 @@ public class UnifiedExceptionHandler {
     })
     public R handleServletException(Exception e) {
         log.error(e.getMessage(), e);
+        e.printStackTrace();
         //SERVLET_ERROR(-102, "servlet请求异常"),
         return R.error().message(ResponseEnum.SERVLET_ERROR.getMessage()).code(ResponseEnum.SERVLET_ERROR.getCode());
     }

@@ -4,9 +4,9 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.heepay.mapper.UserInvestMapper">
+<mapper namespace="lbw.heepay.mapper.UserInvestMapper">
 
-	<resultMap id="UserInvestMap" type="com.heepay.model.UserInvest">
+	<resultMap id="UserInvestMap" type="lbw.heepay.model.UserInvest">
 		<result property="id" column="id"/>
 		<result property="voteBindCode" column="vote_bind_code"/>
 		<result property="benefitBindCode" column="benefit_bind_code"/>

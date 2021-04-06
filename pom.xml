@@ -10,6 +10,10 @@
         <module>service-core</module>
         <module>common</module>
         <module>gateway</module>
+        <module>service-sms6666</module>
+        <module>service-sms7777</module>
+        <module>rabbitMq</module>
+
     </modules>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
