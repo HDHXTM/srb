@@ -3,6 +3,7 @@ package lbw.srb.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import lbw.srb.core.pojo.entity.UserBind;
+import lbw.srb.core.pojo.vo.UserBindVO;
 
 import java.util.Map;
 
@@ -13,4 +14,7 @@ import java.util.Map;
  */
 public interface UserBindService extends IService<UserBind> {
 
+    String bind(UserBindVO userBindVO, Long userId);
+
+    String notify(Map<String, Object> paramMap);
 }

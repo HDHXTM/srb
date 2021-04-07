@@ -1,15 +1,19 @@
 package lbw.srb.controller;
 
+import lbw.srb.common.exception.Assert;
+import lbw.srb.common.exception.BusinessException;
 import lbw.srb.common.result.R;
+import lbw.srb.common.result.ResponseEnum;
+import lbw.srb.common.util.JwtUtils;
 import lbw.srb.util.FileUploadUtils;
+import lbw.srb.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -17,7 +21,7 @@ import java.io.IOException;
  *
  * @author ruoyi
  */
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/api/oss/file")
 public class FileController {
@@ -54,10 +58,29 @@ public class FileController {
      * 通用上传请求
      */
     @PostMapping("/upload")
-    @ResponseBody
-    public R uploadFile(MultipartFile file) throws IOException {
+    public R uploadFile(MultipartFile file,HttpServletRequest request){
+        String token = request.getHeader("token");
+        Assert.isTrue(JwtUtils.checkToken(token), ResponseEnum.LOGIN_AUTH_ERROR);
         // 上传并返回新文件名称
-        String fileName = fileUploadUtils.upload(file);
+        String fileName = null;
+        try {
+            fileName = fileUploadUtils.upload(file);
+        } catch (BusinessException e) {
+            return R.error().message(e.getMessage()).code(e.getCode());
+        } catch (IOException e) {
+            return R.error().message(e.getMessage());
+        }
         return R.ok().message("文件上传成功").data("url", fileName);
     }
+
+//    @DeleteMapping("/remove")
+//    public R remove(String url, HttpServletRequest request){
+//        String token = request.getHeader("token");
+//        JwtUtils.checkToken(token);
+//        if (!FileUtils.checkAllowDownload(url))
+//            throw new BusinessException("文件名非法！禁止删除！");
+//        if(FileUtils.deleteFile(url))
+//            return R.ok();
+//        return R.error().message("删除失败");
+//    }
 }

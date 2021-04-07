@@ -6,7 +6,7 @@ package lbw.srb.core.hfb;
 public class HfbConst {
 
     //给商户分配的唯一标识
-    public static final String AGENT_ID = "999888";
+    public static final Integer AGENT_ID = 999888;
     //签名key
     public static final String SIGN_KEY = "9876543210";
 

@@ -3,6 +3,7 @@ package lbw.srb.core.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lbw.srb.common.controller.BaseController;
 import lbw.srb.common.exception.Assert;
 import lbw.srb.common.result.R;
 import lbw.srb.common.result.ResponseEnum;
@@ -12,6 +13,7 @@ import lbw.srb.common.util.RegexValidateUtils;
 import lbw.srb.core.pojo.entity.UserInfo;
 import lbw.srb.core.pojo.vo.LoginVO;
 import lbw.srb.core.pojo.vo.RegisterVO;
+import lbw.srb.core.pojo.vo.UserIndexVO;
 import lbw.srb.core.pojo.vo.UserInfoVO;
 import lbw.srb.core.service.UserInfoService;
 import lbw.srb.rabbitMQ.product.SMSService;
@@ -34,10 +36,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/core/userInfo")
 @Slf4j
-public class UserInfoController {
-
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+public class UserInfoController extends BaseController {
 
     @Resource
     private RedisUtil redisUtil;
@@ -71,10 +70,8 @@ public class UserInfoController {
     @ApiOperation("会员登录")
     @PostMapping("/login")
     public R login(@RequestBody LoginVO loginVO, HttpServletRequest request){
-        UserInfoVO userInfoVO=userInfoService.login(loginVO);
-        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
-        wrapper.eq("mobile",loginVO.getMobile());
-        return R.ok().data("userInfo",userInfoService.getOne(wrapper));
+        String ip = request.getRemoteAddr();
+        return R.ok().data("userInfo",userInfoService.login(loginVO,ip));
     }
 
     @ApiOperation("校验令牌")
@@ -86,12 +83,13 @@ public class UserInfoController {
         return R.error().message("token无效");
     }
 //
-
 //
-//    @ApiOperation("获取个人空间用户信息")
-//    @GetMapping("/auth/getIndexUserInfo")
-//    public R getIndexUserInfo(HttpServletRequest request) {
-//
-//    }
+    @ApiOperation("获取个人空间用户信息")
+    @GetMapping("/auth/getIndexUserInfo")
+    public R getIndexUserInfo(HttpServletRequest request) {
+//        String token = request.getHeader("token");
+//        Long userId = JwtUtils.getUserId(token);
+        return R.ok().data("userIndexVO",userInfoService.getIndexUserInfo(getUserId()));
+    }
 }
 

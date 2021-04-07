@@ -33,7 +33,7 @@ public enum ResponseEnum {
     LOGIN_AUTH_ERROR(-211, "未登录"),
 
 
-    USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已绑定"),
+    USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已被其他账号绑定"),
     USER_NO_BIND_ERROR(302, "用户未绑定"),
     USER_NO_AMOUNT_ERROR(303, "用户信息未审核"),
     USER_AMOUNT_LESS_ERROR(304, "您的借款额度不足"),

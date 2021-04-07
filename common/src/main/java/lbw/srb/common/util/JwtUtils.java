@@ -28,7 +28,7 @@ public class JwtUtils {
         return new SecretKeySpec(bytes,signatureAlgorithm.getJcaName());
     }
 
-    public static String createToken(Long userId, String userName,String userType) {
+    public static String createToken(Long userId, String userName,Integer userType) {
         String token = Jwts.builder()
                 .setSubject("SRB-USER")
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
@@ -61,8 +61,7 @@ public class JwtUtils {
 
     public static Long getUserId(String token) {
         Claims claims = getClaims(token);
-        Integer userId = (Integer)claims.get("userId");
-        return userId.longValue();
+        return (Long) claims.get("userId");
     }
 
     public static String getUserName(String token) {
@@ -70,9 +69,9 @@ public class JwtUtils {
         return (String)claims.get("userName");
     }
 
-    public static String getUserType(String token){
+    public static Integer getUserType(String token){
         Claims claims = getClaims(token);
-        return (String)claims.get("userType");
+        return (Integer) claims.get("userType");
     }
 
     public static void removeToken(String token) {

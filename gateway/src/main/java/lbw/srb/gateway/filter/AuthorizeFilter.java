@@ -25,8 +25,8 @@
 //        //2. 则获取响应
 //        ServerHttpResponse response = exchange.getResponse();
 //        //3. 如果是登录,注册请求则放行
-//        if (request.getURI().getPath().contains("/api/core/userInfo/login")||
-//                request.getURI().getPath().contains("/api/core/userInfo/register")
+//        if (request.getURI().getPath().contains("/api/core/userInfo/login")
+//                || request.getURI().getPath().contains("/api/core/userInfo/register")
 //                || request.getURI().getPath().contains("/api/sms/send")
 //                ||request.getURI().getPath().contains("/admin/")
 //        ) {

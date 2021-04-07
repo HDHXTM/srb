@@ -15,4 +15,5 @@ import lbw.srb.core.pojo.vo.BorrowerVO;
  */
 public interface BorrowerService extends IService<Borrower> {
 
+    Integer getBorrowerStatus(Long userId);
 }

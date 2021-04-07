@@ -8,7 +8,7 @@ import lombok.Getter;
 //@ToString
 public enum UserBindEnum {
 
-    NO_BIND(0, "未绑定"),
+    NO_BIND(0, "绑定中"),
     BIND_OK(1, "绑定成功"),
     BIND_FAIL(-1, "绑定失败"),
     ;

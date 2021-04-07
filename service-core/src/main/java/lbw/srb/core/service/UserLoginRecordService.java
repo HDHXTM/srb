@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface UserLoginRecordService extends IService<UserLoginRecord> {
 
+    List<UserLoginRecord> getTop50(Long userId);
 }

@@ -29,5 +29,7 @@ public final class MD5 {
         }
     }
 
-
+    public static void main(String[] args) {
+        System.out.println(encrypt("7758258"));
+    }
 }

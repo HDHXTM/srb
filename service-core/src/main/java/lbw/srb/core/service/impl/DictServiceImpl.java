@@ -25,6 +25,17 @@ import java.util.List;
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+//    select * from dict where parent_id in (select id from dict where dict_code='industry')
+    @Override
+    @Cacheable(value = "dictCode",key = "#dictCode")
+    public List<Dict> findByDictCode(String dictCode) {
+        QueryWrapper<Dict> wrapper = new QueryWrapper<>();
+        wrapper.select("name","value");
+        wrapper.inSql("parent_id","select id from dict where dict_code='"+dictCode+"'");
+        return baseMapper.selectList(wrapper);
+    }
+
     @Override
     @Cacheable(cacheNames = "dict",key = "#parentId")
     public List<Dict> listByParentId(Long parentId) {
@@ -47,6 +58,8 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
             if (dict.getParentId()!=null)
 //                清除缓存，等待下次更新
                 redisTemplate.delete("dict::"+dict.getParentId());
+            if (dict.getDictCode()!=null)
+                redisTemplate.delete("dictCode::"+dict.getDictCode());
         }
         return true;
     }
