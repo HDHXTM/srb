@@ -26,7 +26,18 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-//    select * from dict where parent_id in (select id from dict where dict_code='industry')
+//    select name from dict where value=3 and parent_id in (select id from dict where dict_code='industry')
+    @Override
+    public String findNameByCodeAndValue(String code, Integer value) {
+        QueryWrapper<Dict> wrapper = new QueryWrapper<>();
+        wrapper.select("name");
+        wrapper.eq("value",value);
+        wrapper.inSql("parent_id","select id from dict where dict_code='"+code+"'");
+        List<Object> objects = baseMapper.selectObjs(wrapper);
+        return (String)objects.get(0);
+    }
+
+    //    select * from dict where parent_id in (select id from dict where dict_code='industry')
     @Override
     @Cacheable(value = "dictCode",key = "#dictCode")
     public List<Dict> findByDictCode(String dictCode) {

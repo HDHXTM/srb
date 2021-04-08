@@ -29,11 +29,12 @@ public class BorrowerController extends BaseController {
     @Resource
     private BorrowerService borrowerService;
 
-//    @ApiOperation("保存借款人信息")
-//    @PostMapping("/auth/save")
-//    public R save(@RequestBody BorrowerVO borrowerVO, HttpServletRequest request) {
-//
-//    }
+    @ApiOperation("保存借款人信息")
+    @PostMapping("/auth/save")
+    public R save(@RequestBody BorrowerVO borrowerVO, HttpServletRequest request) {
+        borrowerService.saveInfo(borrowerVO,getUserId());
+        return R.ok();
+    }
 
     @ApiOperation("获取借款人认证状态")
     @GetMapping("/auth/getBorrowerStatus")

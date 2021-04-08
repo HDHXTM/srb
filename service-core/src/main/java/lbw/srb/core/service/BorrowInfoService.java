@@ -17,4 +17,9 @@ import java.util.Map;
  */
 public interface BorrowInfoService extends IService<BorrowInfo> {
 
+    Integer getBorrowInfoStatus(Long userId);
+
+    BigDecimal getBorrowAmount(Long userId);
+
+    List<BorrowInfo> findAll();
 }

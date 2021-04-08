@@ -40,8 +40,6 @@ public class UserIndexVO {
     private BigDecimal freezeAmount;
 
     @ApiModelProperty(value = "上次登录时间")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime lastLoginTime;
 
 }

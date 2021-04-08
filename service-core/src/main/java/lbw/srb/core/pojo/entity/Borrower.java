@@ -73,7 +73,7 @@ public class Borrower implements Serializable {
     @ApiModelProperty(value = "联系人关系")
     private Integer contactsRelation;
 
-    @ApiModelProperty(value = "状态（0：认证中 1：认证通过 -1：认证失败）")
+    @ApiModelProperty(value = "状态（0：未认证 1：认证中 2：认证通过 -1：认证失败）")
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")

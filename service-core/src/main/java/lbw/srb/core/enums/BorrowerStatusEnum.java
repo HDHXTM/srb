@@ -18,9 +18,9 @@ public enum BorrowerStatusEnum {
     private String msg;
 
     public static String getMsgByStatus(int status) {
-        BorrowerStatusEnum arrObj[] = BorrowerStatusEnum.values();
+        BorrowerStatusEnum[] arrObj = BorrowerStatusEnum.values();
         for (BorrowerStatusEnum obj : arrObj) {
-            if (status == obj.getStatus().intValue()) {
+            if (status == obj.getStatus()) {
                 return obj.getMsg();
             }
         }

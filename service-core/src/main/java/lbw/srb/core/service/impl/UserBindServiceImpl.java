@@ -39,8 +39,6 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
 
     @Override
     @Transactional
-    //        清除redis用户信息缓存
-    @CacheEvict(value = "userInfo",key = "#paramMap.get('agentUserId')")
     public String notify(Map<String, Object> paramMap) {
         String resultCode = (String) paramMap.get("resultCode");
         String bindCode = (String) paramMap.get("bindCode");

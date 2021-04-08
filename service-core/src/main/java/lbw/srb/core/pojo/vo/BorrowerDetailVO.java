@@ -1,5 +1,9 @@
 package lbw.srb.core.pojo.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -53,7 +57,7 @@ public class BorrowerDetailVO {
     @ApiModelProperty(value = "联系人关系")
     private String contactsRelation;
 
-    @ApiModelProperty(value = "审核状态")
+    @ApiModelProperty(value = "审核状态（0：未认证 1：认证中 2：认证通过 -1：认证失败）")
     private String status;
 
     @ApiModelProperty(value = "创建时间")

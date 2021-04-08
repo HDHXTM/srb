@@ -28,7 +28,7 @@ public class ScheduledTask {
      */
     @Scheduled(cron = "0/1 * *  * * ?")
     public void task1() {
-        log.info("task1");
+//        log.info("task1");
         for(int i=0; i<5; i++) {
             NotifyVo notifyVo = queue.poll();
             if(null != notifyVo) {

@@ -11,6 +11,7 @@ public enum BorrowInfoStatusEnum {
     CHECK_RUN(1, "审核中"),
     CHECK_OK(2, "审核通过"),
     CHECK_FAIL(-1, "审核不通过"),
+    FINISH(3,"已完成")
     ;
 
     private Integer status;

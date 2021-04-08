@@ -13,7 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -53,6 +57,19 @@ public class FileController {
 //            log.error("下载文件失败", e);
 //        }
 //    }
+    @GetMapping("/img/{imgUrl}")
+    public void test(HttpServletResponse response,@PathVariable("imgUrl") String imageUrl) throws IOException {
+//        System.out.println(imageUrl);
+        //写给浏览器
+        response.setContentType("image/jpeg");
+        //浏览器不要缓存
+        response.setDateHeader("expries", -1);
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        BufferedImage buffImg = ImageIO.read(new FileInputStream("D:\\study\\java\\mySrb\\services-file\\file\\"+imageUrl));
+        String[] split = imageUrl.split("\\.");
+        ImageIO.write(buffImg,split[1] ,response.getOutputStream());
+    }
 
     /**
      * 通用上传请求
@@ -60,9 +77,10 @@ public class FileController {
     @PostMapping("/upload")
     public R uploadFile(MultipartFile file,HttpServletRequest request){
         String token = request.getHeader("token");
+//        System.out.println(token);
         Assert.isTrue(JwtUtils.checkToken(token), ResponseEnum.LOGIN_AUTH_ERROR);
         // 上传并返回新文件名称
-        String fileName = null;
+        String fileName;
         try {
             fileName = fileUploadUtils.upload(file);
         } catch (BusinessException e) {

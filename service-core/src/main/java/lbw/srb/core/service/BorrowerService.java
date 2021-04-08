@@ -16,4 +16,13 @@ import lbw.srb.core.pojo.vo.BorrowerVO;
 public interface BorrowerService extends IService<Borrower> {
 
     Integer getBorrowerStatus(Long userId);
+
+    void saveInfo(BorrowerVO borrowerVO, Long userId);
+
+
+    IPage<Borrower> listPage(String keyword, Page<Borrower> borrowerPage);
+
+    BorrowerDetailVO detail(Long id);
+
+    String approval(BorrowerApprovalVO borrowerApprovalVO);
 }

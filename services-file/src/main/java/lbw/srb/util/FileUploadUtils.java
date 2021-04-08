@@ -31,6 +31,8 @@ public class FileUploadUtils
      */
     @Value("${conf.filePath}")
     private String defaultBaseDir;
+    @Value("${conf.filePrefix}")
+    private String prefix;
 
 
 
@@ -69,7 +71,7 @@ public class FileUploadUtils
 
         File desc = getAbsoluteFile(baseDir, fileName);
         file.transferTo(desc);
-        return baseDir+"/"+fileName;
+        return prefix+"api/oss/file/img/"+fileName;
     }
 
     /**

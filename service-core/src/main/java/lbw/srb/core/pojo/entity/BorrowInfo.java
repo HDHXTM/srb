@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,28 +33,41 @@ public class BorrowInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "编号")
-      @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     @ApiModelProperty(value = "借款用户id")
     private Long userId;
 
     @ApiModelProperty(value = "借款金额")
+    @Min(value = 1,message = "金额至少为1")
+    @NotNull(message = "金额至少为1")
     private BigDecimal amount;
 
     @ApiModelProperty(value = "借款期限")
+//    @Min(value = 1,message = "期限至少为1个月")
+    @NotNull(message = "期数不能为空")
     private Integer period;
 
     @ApiModelProperty(value = "年化利率")
+    @Min(value = 1,message = "年化利率至少为1")
+    @NotNull(message = "年化利率至少为1")
     private BigDecimal borrowYearRate;
 
     @ApiModelProperty(value = "还款方式 1-等额本息 2-等额本金 3-每月还息一次还本 4-一次还本")
+    @NotNull(message = "还款方式不能为空")
     private Integer returnMethod;
 
     @ApiModelProperty(value = "资金用途")
+    @NotNull(message = "资金用途不能为空")
     private Integer moneyUse;
 
-    @ApiModelProperty(value = "状态（0：默认 1：审核通过 -1：审核不通过）")
+//    NO_AUTH(0, "未认证"),
+//    CHECK_RUN(1, "审核中"),
+//    CHECK_OK(2, "审核通过"),
+//    CHECK_FAIL(-1, "审核不通过"),
+//    FINISH(3,"已完成")
+    @ApiModelProperty(value = "状态")
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")
