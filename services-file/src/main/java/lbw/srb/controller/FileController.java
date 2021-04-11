@@ -57,7 +57,7 @@ public class FileController {
 //            log.error("下载文件失败", e);
 //        }
 //    }
-    @GetMapping("/img/{imgUrl}")
+    @GetMapping("/admin/img/{imgUrl}")
     public void test(HttpServletResponse response,@PathVariable("imgUrl") String imageUrl) throws IOException {
 //        System.out.println(imageUrl);
         //写给浏览器
@@ -74,11 +74,8 @@ public class FileController {
     /**
      * 通用上传请求
      */
-    @PostMapping("/upload")
+    @PostMapping("/auth/upload")
     public R uploadFile(MultipartFile file,HttpServletRequest request){
-        String token = request.getHeader("token");
-//        System.out.println(token);
-        Assert.isTrue(JwtUtils.checkToken(token), ResponseEnum.LOGIN_AUTH_ERROR);
         // 上传并返回新文件名称
         String fileName;
         try {

@@ -18,7 +18,8 @@ import java.util.Date;
 
 public class JwtUtils {
 
-    private static long tokenExpiration = 24*60*60*1000;
+//    过期时间1天
+    private static long tokenExpiration = 124*60*60*1000;
     private static String tokenSignKey = "crf4trnygyuguggy";
     
 
@@ -28,12 +29,12 @@ public class JwtUtils {
         return new SecretKeySpec(bytes,signatureAlgorithm.getJcaName());
     }
 
-    public static String createToken(Long userId, String userName,Integer userType) {
+    public static String createToken(Long userId,Integer userType) {
         String token = Jwts.builder()
                 .setSubject("SRB-USER")
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
                 .claim("userId", userId)
-                .claim("userName", userName)
+//                .claim("userName", userName)
                 .claim("userType",userType)
                 .signWith(SignatureAlgorithm.HS512, getKeyInstance())
                 .compressWith(CompressionCodecs.GZIP)
@@ -61,13 +62,20 @@ public class JwtUtils {
 
     public static Long getUserId(String token) {
         Claims claims = getClaims(token);
-        return (Long) claims.get("userId");
+        return new Long(String.valueOf(claims.get("userId"))) ;
+//        return (long)claims.get("userId");
     }
 
-    public static String getUserName(String token) {
-        Claims claims = getClaims(token);
-        return (String)claims.get("userName");
-    }
+//    public static void main(String[] args) {
+//        Integer a=new Integer(1);
+//        Long aLong = new Long(a);
+//        System.out.println(aLong);
+//    }
+
+//    public static String getUserName(String token) {
+//        Claims claims = getClaims(token);
+//        return (String)claims.get("userName");
+//    }
 
     public static Integer getUserType(String token){
         Claims claims = getClaims(token);
@@ -83,15 +91,14 @@ public class JwtUtils {
      * @param token
      * @return
      */
-    private static Claims getClaims(String token) {
+    private static Claims getClaims(String token) throws BusinessException{
         if(StringUtils.isEmpty(token)) {
             // LOGIN_AUTH_ERROR(-211, "未登录"),
             throw new BusinessException(ResponseEnum.LOGIN_AUTH_ERROR);
         }
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(getKeyInstance()).parseClaimsJws(token);
-            Claims claims = claimsJws.getBody();
-            return claims;
+            return claimsJws.getBody();
         } catch (Exception e) {
             throw new BusinessException(ResponseEnum.LOGIN_AUTH_ERROR);
         }

@@ -26,4 +26,8 @@ public interface UserInfoService extends IService<UserInfo> {
     IPage<UserInfo> search(Page<UserInfo> userInfoPage, UserInfoQuery userInfoQuery);
 
     void lock(Long id, Integer status);
+
+    String adminLogin(String username, String password,String ip);
+
+    String getNameById(Long id);
 }

@@ -15,4 +15,16 @@ import java.util.Map;
 public interface UserAccountService extends IService<UserAccount> {
 
 
+    String commitCharge(BigDecimal chargeAmt, Long userId);
+
+    String CQnotify(Map<String, Object> paramMap);
+
+    String withdraw(BigDecimal fetchAmt, Long userId);
+    
+    BigDecimal getAmount(Long userId);
+
+    String QQnotify(Map<String, Object> paramMap);
+
+
+    void freeze(Long id, BigDecimal voteAmt);
 }

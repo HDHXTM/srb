@@ -1,9 +1,6 @@
 package lbw.srb.core.pojo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,7 +29,7 @@ public class Lend implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "编号")
-      @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     @ApiModelProperty(value = "借款用户id")
@@ -50,7 +47,7 @@ public class Lend implements Serializable {
     @ApiModelProperty(value = "标的金额")
     private BigDecimal amount;
 
-    @ApiModelProperty(value = "投资期数")
+    @ApiModelProperty(value = "还款期数，1期1月")
     private Integer period;
 
     @ApiModelProperty(value = "年化利率")
@@ -71,13 +68,14 @@ public class Lend implements Serializable {
     @ApiModelProperty(value = "投资人数")
     private Integer investNum;
 
-    @ApiModelProperty(value = "发布日期")
-    private LocalDateTime publishDate;
+//    @ApiModelProperty(value = "发布日期")
+//    不就是createTime？
+//    private LocalDateTime publishDate;
 
-    @ApiModelProperty(value = "开始日期")
+    @ApiModelProperty(value = "计息开始日期")
     private LocalDate lendStartDate;
 
-    @ApiModelProperty(value = "结束日期")
+    @ApiModelProperty(value = "应还完款日期")
     private LocalDate lendEndDate;
 
     @ApiModelProperty(value = "说明")
@@ -89,11 +87,19 @@ public class Lend implements Serializable {
     @ApiModelProperty(value = "实际收益")
     private BigDecimal realAmount;
 
+//    INVEST_RUN(1, "募资中"),
+//    PAY_RUN(2, "还款中"),
+//    PAY_OK(3, "已结清"),
+//    FINISH(4, "结标"),
+//    CANCEL(-1, "已撤标"),
+//    OVERDUE(-1, "逾期催收中"),
+//    BAD_BILL(-2, "坏账"),
     @ApiModelProperty(value = "状态")
     private Integer status;
 
-    @ApiModelProperty(value = "审核时间")
-    private LocalDateTime checkTime;
+//    @ApiModelProperty(value = "审核时间")
+    //    不就是createTime？
+//    private LocalDateTime checkTime;
 
     @ApiModelProperty(value = "审核用户id")
     private Long checkAdminId;
@@ -105,9 +111,11 @@ public class Lend implements Serializable {
     private LocalDateTime paymentAdminId;
 
     @ApiModelProperty(value = "创建时间")
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "逻辑删除(1:已删除，0:未删除)")

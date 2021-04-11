@@ -2,14 +2,12 @@ package lbw.srb.core;
 
 import com.alibaba.druid.sql.visitor.functions.If;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lbw.srb.common.util.RedisUtil;
 import lbw.srb.core.enums.BorrowInfoStatusEnum;
-import lbw.srb.core.mapper.BorrowInfoMapper;
-import lbw.srb.core.mapper.DictMapper;
-import lbw.srb.core.mapper.UserInfoMapper;
-import lbw.srb.core.pojo.entity.BorrowInfo;
-import lbw.srb.core.pojo.entity.Dict;
-import lbw.srb.core.pojo.entity.UserInfo;
+import lbw.srb.core.mapper.*;
+import lbw.srb.core.pojo.entity.*;
+import lbw.srb.core.service.UserAccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +34,12 @@ public class RedisTemplateTests {
     private DictMapper dictMapper;
     @Autowired
     private BorrowInfoMapper borrowInfoMapper;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
+    @Autowired
+    private UserAccountService userAccountService;
+    @Autowired
+    private IntegralGradeMapper integralGradeMapper;
 
     @Test
     void aa(){
@@ -88,6 +93,37 @@ public class RedisTemplateTests {
         }
     }
 
+    @Test
+    void df(){
+        UpdateWrapper<UserAccount> wrapper = new UpdateWrapper<>();
+//        UserAccount userAccount = new UserAccount();
+//        userAccount.setId(1379409971615232002L);
+//        userAccount.setUserId(1379409971531345925L);
+//        System.out.println(userAccount);
+        wrapper.setSql("amount=amount+"+999).eq("user_id",1379409971531345925L);
+        userAccountMapper.update(null,wrapper);
+    }
+
+    @Test
+    void ll(){
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.select("id","name").eq("bind_code","65cf69dd91734924b43ee251f6a51a77");
+        List<Object> objs = userInfoMapper.selectObjs(wrapper);
+        for (Object obj : objs) {
+            System.out.println(obj);
+        }
+    }
+
+@Test
+    void ese(){
+//    IntegralGrade grade = new IntegralGrade();
+//    grade.setBorrowAmount(new BigDecimal(5335555));
+//    integralGradeMapper.insert(grade);
+
+    IntegralGrade integralGrade = integralGradeMapper.selectById(1381065416822026241L);
+    integralGrade.setUpdateTime(null);
+    integralGradeMapper.updateById(integralGrade);
+}
 
 
 }

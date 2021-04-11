@@ -13,4 +13,7 @@ import java.util.List;
  */
 public interface TransFlowService extends IService<TransFlow> {
 
+    boolean isExist(String agentBillNo);
+
+    List<TransFlow> findAllByUserId(Long userId);
 }

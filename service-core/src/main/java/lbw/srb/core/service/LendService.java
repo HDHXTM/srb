@@ -16,4 +16,14 @@ import java.util.Map;
  */
 public interface LendService extends IService<Lend> {
 
+    void addLend(BorrowInfoApprovalVO borrowInfoApprovalVO, BorrowInfo borrowInfo, Long userId);
+
+    List<Lend> findAll();
+
+    Map<String, Object> getLendDetail(Long id);
+
+    void makeLoan(Long id);
+
+
+    BigDecimal getInterestCount(BigDecimal invest, BigDecimal yearRate, Integer totalmonth, Integer returnMethod);
 }

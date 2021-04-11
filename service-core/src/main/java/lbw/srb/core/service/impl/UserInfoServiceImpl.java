@@ -32,6 +32,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户基本信息 服务实现类
@@ -54,15 +56,30 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         Assert.notNull(userInfo, ResponseEnum.LOGIN_MOBILE_ERROR);
         Assert.equals(userInfo.getStatus(),1,ResponseEnum.LOGIN_LOKED_ERROR);
         Assert.equals(userInfo.getPassword(), MD5.encrypt(loginVO.getPassword()),ResponseEnum.LOGIN_PASSWORD_ERROR);
-        String token = JwtUtils.createToken(userInfo.getId(), userInfo.getName(), userInfo.getUserType());
+        String token = JwtUtils.createToken(userInfo.getId(), userInfo.getUserType());
         userLoginRecordMapper.insert(new UserLoginRecord(userInfo.getId(), ip));
+
         UserInfoVO userInfoVO = new UserInfoVO();
         BeanUtils.copyProperties(userInfo,userInfoVO);
+
         userInfoVO.setToken(token);
         return userInfoVO;
     }
+    @Override
+    @Transactional
+    public String adminLogin(String username, String password,String ip) {
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.eq("mobile",username);
+        UserInfo userInfo = baseMapper.selectOne(wrapper);
+        Assert.notNull(userInfo, ResponseEnum.LOGIN_MOBILE_ERROR);
+        Assert.equals(userInfo.getPassword(), MD5.encrypt(password),ResponseEnum.LOGIN_PASSWORD_ERROR);
+        String token = JwtUtils.createToken(userInfo.getId(), userInfo.getUserType());
+        userLoginRecordMapper.insert(new UserLoginRecord(userInfo.getId(), ip));
+        return token;
+    }
 
     @Override
+    @Transactional
     public void register(RegisterVO registerVO) {
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(registerVO, userInfo);
@@ -79,7 +96,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     }
 
     @Override
-    @Cacheable(value = "userInfo",key = "#userId")
     public UserIndexVO getIndexUserInfo(Long userId) {
         UserInfo userInfo = baseMapper.selectById(userId);
         UserIndexVO userIndexVO = new UserIndexVO();
@@ -109,6 +125,17 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
                 .eq(userInfoQuery.getStatus()!=null,"status",userInfoQuery.getStatus())
                 .eq(userInfoQuery.getUserType()!=null,"user_type",userInfoQuery.getUserType());
         return baseMapper.selectPage(userInfoPage,wrapper);
+    }
+
+
+    @Override
+    public String getNameById(Long id) {
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.select("name").eq("id",id);
+        List<Object> objs = baseMapper.selectObjs(wrapper);
+        if (objs.size()>0)
+            return (String)objs.get(0);
+        return "";
     }
 
     @Override

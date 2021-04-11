@@ -29,7 +29,7 @@ public class LendItemReturn implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "编号")
-      @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     @ApiModelProperty(value = "标的还款id")
@@ -94,6 +94,4 @@ public class LendItemReturn implements Serializable {
     @TableField("is_deleted")
     @TableLogic
     private Boolean deleted;
-
-
 }

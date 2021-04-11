@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/core/dict")
 @Slf4j
-public class DictController {
+public class DictController{
 
     @Resource
     private DictService dictService;
@@ -31,4 +31,6 @@ public class DictController {
             @PathVariable String dictCode){
         return R.ok().data("dictList",dictService.findByDictCode(dictCode));
     }
+
+
 }

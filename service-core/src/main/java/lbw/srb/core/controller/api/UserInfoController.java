@@ -3,7 +3,7 @@ package lbw.srb.core.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lbw.srb.common.controller.BaseController;
+import lbw.srb.core.controller.BaseController;
 import lbw.srb.common.exception.Assert;
 import lbw.srb.common.result.R;
 import lbw.srb.common.result.ResponseEnum;
@@ -13,17 +13,12 @@ import lbw.srb.common.util.RegexValidateUtils;
 import lbw.srb.core.pojo.entity.UserInfo;
 import lbw.srb.core.pojo.vo.LoginVO;
 import lbw.srb.core.pojo.vo.RegisterVO;
-import lbw.srb.core.pojo.vo.UserIndexVO;
-import lbw.srb.core.pojo.vo.UserInfoVO;
 import lbw.srb.core.service.UserInfoService;
 import lbw.srb.rabbitMQ.product.SMSService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -69,7 +64,7 @@ public class UserInfoController extends BaseController {
 
     @ApiOperation("会员登录")
     @PostMapping("/login")
-    public R login(@RequestBody LoginVO loginVO, HttpServletRequest request){
+    public R login(@Valid @RequestBody LoginVO loginVO, HttpServletRequest request){
         String ip = request.getRemoteAddr();
         return R.ok().data("userInfo",userInfoService.login(loginVO,ip));
     }
@@ -86,9 +81,7 @@ public class UserInfoController extends BaseController {
 //
     @ApiOperation("获取个人空间用户信息")
     @GetMapping("/auth/getIndexUserInfo")
-    public R getIndexUserInfo(HttpServletRequest request) {
-//        String token = request.getHeader("token");
-//        Long userId = JwtUtils.getUserId(token);
+    public R getIndexUserInfo() {
         return R.ok().data("userIndexVO",userInfoService.getIndexUserInfo(getUserId()));
     }
 }

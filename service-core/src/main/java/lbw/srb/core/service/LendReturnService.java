@@ -13,4 +13,5 @@ import java.util.Map;
  */
 public interface LendReturnService extends IService<LendReturn> {
 
+    List<LendReturn> findAllByLendId(Long lendId);
 }

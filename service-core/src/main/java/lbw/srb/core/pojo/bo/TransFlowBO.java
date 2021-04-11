@@ -1,4 +1,4 @@
-package lbw.srb.core.pojo.entity.hfb;
+package lbw.srb.core.pojo.bo;
 
 import lbw.srb.core.enums.TransTypeEnum;
 import lombok.AllArgsConstructor;

@@ -22,4 +22,8 @@ public interface BorrowInfoService extends IService<BorrowInfo> {
     BigDecimal getBorrowAmount(Long userId);
 
     List<BorrowInfo> findAll();
+
+    Map<String,Object> show(Long id);
+
+    void approval(BorrowInfoApprovalVO borrowInfoApprovalVO, Long userId);
 }

@@ -3,7 +3,7 @@ package lbw.srb.core.controller.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lbw.srb.common.controller.BaseController;
+import lbw.srb.core.controller.BaseController;
 import lbw.srb.common.result.R;
 import lbw.srb.core.enums.BorrowInfoStatusEnum;
 import lbw.srb.core.pojo.entity.BorrowInfo;
@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 

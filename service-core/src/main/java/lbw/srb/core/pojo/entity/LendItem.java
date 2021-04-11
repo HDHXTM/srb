@@ -29,7 +29,7 @@ public class LendItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "编号")
-      @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     @ApiModelProperty(value = "投资编号")
@@ -50,8 +50,9 @@ public class LendItem implements Serializable {
     @ApiModelProperty(value = "年化利率")
     private BigDecimal lendYearRate;
 
-    @ApiModelProperty(value = "投资时间")
-    private LocalDateTime investTime;
+//    @ApiModelProperty(value = "投资时间")
+////    createTime
+//    private LocalDateTime investTime;
 
     @ApiModelProperty(value = "开始日期")
     private LocalDate lendStartDate;

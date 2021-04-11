@@ -11,4 +11,5 @@ import lbw.srb.core.pojo.entity.UserInfo;
  */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
+
 }

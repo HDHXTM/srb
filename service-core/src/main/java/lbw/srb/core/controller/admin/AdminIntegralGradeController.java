@@ -28,10 +28,7 @@ public class AdminIntegralGradeController {
     @ApiOperation("积分等级列表")
     @GetMapping("/list")
     public R listAll(){
-        QueryWrapper<IntegralGrade> wrapper = new QueryWrapper<>();
-//        不能带更新，创建时间，不然updateTime就更新不了，，
-        wrapper.select("id","integral_start","integral_end","borrow_amount");
-        return R.ok().data("list",integralGradeService.list(wrapper));
+        return R.ok().data("list",integralGradeService.list());
     }
 
     @ApiOperation(value = "根据id删除数据记录", notes="逻辑删除数据记录")

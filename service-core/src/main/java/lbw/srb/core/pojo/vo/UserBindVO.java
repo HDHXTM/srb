@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Data
 @ApiModel(description = "账户绑定")
@@ -28,5 +29,6 @@ public class UserBindVO {
 
     @ApiModelProperty(value = "手机号")
     @NotBlank(message = "手机号不能为空")
+    @Pattern(message = "手机号无效",regexp = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$")
     private String mobile;
 }

@@ -1,9 +1,6 @@
 package lbw.srb.core.pojo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -44,7 +41,7 @@ public class BorrowInfo implements Serializable {
     @NotNull(message = "金额至少为1")
     private BigDecimal amount;
 
-    @ApiModelProperty(value = "借款期限")
+    @ApiModelProperty(value = "还款期数")
 //    @Min(value = 1,message = "期限至少为1个月")
     @NotNull(message = "期数不能为空")
     private Integer period;
@@ -71,9 +68,11 @@ public class BorrowInfo implements Serializable {
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "逻辑删除(1:已删除，0:未删除)")
