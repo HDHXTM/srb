@@ -48,8 +48,6 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
     @Autowired
     private UserInfoService userInfoService;
     @Autowired
-    private UserInfoMapper userInfoMapper;
-    @Autowired
     private TransFlowService transFlowService;
     @Autowired
     private UserBindService userBindService;
@@ -188,7 +186,7 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
     @Override
     public List<LendItem> findAllByLendId(Long lendId) {
         QueryWrapper<LendItem> wrapper = new QueryWrapper<>();
-        wrapper.eq("lend_id",lendId);
+        wrapper.eq("lend_id",lendId).ne("status",0);
         return baseMapper.selectList(wrapper);
     }
 

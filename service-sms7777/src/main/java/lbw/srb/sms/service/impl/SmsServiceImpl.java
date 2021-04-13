@@ -58,7 +58,7 @@ public class SmsServiceImpl implements SmsService {
 
             req.setSmsSdkAppid(smsSdkAppid);
 
-//            client.SendSms(req);
+            client.SendSms(req);
             //将验证码存入redis
             redisUtil.set("srb:sms:code:"+phone,code,180);
 

@@ -8,16 +8,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.swagger.annotations.ApiModelProperty;
 import lbw.srb.common.exception.Assert;
 import lbw.srb.common.result.ResponseEnum;
+import lbw.srb.core.enums.BorrowInfoStatusEnum;
 import lbw.srb.core.enums.LendStatusEnum;
 import lbw.srb.core.enums.ReturnMethodEnum;
 import lbw.srb.core.enums.TransTypeEnum;
 import lbw.srb.core.hfb.FormHelper;
 import lbw.srb.core.hfb.HfbConst;
 import lbw.srb.core.hfb.RequestHelper;
-import lbw.srb.core.mapper.LendMapper;
-import lbw.srb.core.mapper.LendReturnMapper;
-import lbw.srb.core.mapper.UserInfoMapper;
-import lbw.srb.core.mapper.UserIntegralMapper;
+import lbw.srb.core.mapper.*;
 import lbw.srb.core.pojo.entity.*;
 import lbw.srb.core.service.*;
 import lbw.srb.core.util.*;
@@ -58,6 +56,8 @@ public class LendReturnServiceImpl extends ServiceImpl<LendReturnMapper, LendRet
     private UserInfoService userInfoService;
     @Autowired
     private LendItemService lendItemService;
+    @Autowired
+    private BorrowInfoMapper borrowInfoMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -95,6 +95,13 @@ public class LendReturnServiceImpl extends ServiceImpl<LendReturnMapper, LendRet
             flag=true;
 //            加分
             userInfoService.AddIntegral(lend.getUserId(),lend.getAmount().divideToIntegralValue(new BigDecimal(1000)).intValue(),"完成还款");
+
+//            更新borrowInfo为完成
+            UpdateWrapper<BorrowInfo> borrowInfoUpdateWrapper = new UpdateWrapper<>();
+            borrowInfoUpdateWrapper
+                    .set("status", BorrowInfoStatusEnum.FINISH.getStatus())
+                    .eq("id",lendReturn.getBorrowInfoId());
+            borrowInfoMapper.update(null,borrowInfoUpdateWrapper);
         }
 //        扣钱
         userAccount.setAmount(userAccount.getAmount().subtract(totalAmt));

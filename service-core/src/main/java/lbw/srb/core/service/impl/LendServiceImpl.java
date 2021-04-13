@@ -120,7 +120,7 @@ public class LendServiceImpl extends ServiceImpl<LendMapper, Lend> implements Le
 
 //        更新标的
         lend.setRealAmount(realAmount);
-        LocalDate start = LocalDate.now();
+        LocalDate start = LocalDate.now().plusMonths(1);
         LocalDate end = start.plusMonths(lend.getPeriod());
         lend.setLendStartDate(start);
         lend.setLendEndDate(end);

@@ -9,6 +9,7 @@ import lbw.srb.util.FileUploadUtils;
 import lbw.srb.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +30,9 @@ import java.io.IOException;
 @Slf4j
 @RequestMapping("/api/oss/file")
 public class FileController {
+    /** 上传路径 */
+    @Value("${conf.filePath}")
+    public String profile;
     @Autowired
     private FileUploadUtils fileUploadUtils;
 
@@ -65,7 +69,7 @@ public class FileController {
         response.setDateHeader("expries", -1);
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        BufferedImage buffImg = ImageIO.read(new FileInputStream("D:\\study\\java\\mySrb\\services-file\\file\\"+imageUrl));
+        BufferedImage buffImg = ImageIO.read(new FileInputStream(profile+"\\"+imageUrl));
         String[] split = imageUrl.split("\\.");
         ImageIO.write(buffImg,split[1] ,response.getOutputStream());
     }

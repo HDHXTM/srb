@@ -12,7 +12,6 @@ import lbw.srb.core.hfb.HfbConst;
 import lbw.srb.core.hfb.RequestHelper;
 import lbw.srb.core.mapper.UserAccountMapper;
 import lbw.srb.core.mapper.UserInfoMapper;
-import lbw.srb.core.pojo.bo.TransFlowBO;
 import lbw.srb.core.pojo.entity.LendItem;
 import lbw.srb.core.pojo.entity.TransFlow;
 import lbw.srb.core.pojo.entity.UserAccount;

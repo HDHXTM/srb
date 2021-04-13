@@ -3,9 +3,6 @@ package lbw.srb.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import lbw.srb.core.pojo.entity.BorrowerAttach;
-import lbw.srb.core.pojo.vo.BorrowerAttachVO;
-
-import java.util.List;
 
 /**
  * <p>

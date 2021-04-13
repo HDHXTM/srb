@@ -40,9 +40,9 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
         try {
 //        验证token,取id
             Long userId = JwtUtils.getUserId(token);
-            System.out.println(userId);
+//            System.out.println(userId);
             if (request.getURI().getPath().contains("admin")&&JwtUtils.getUserType(token) != 0) {
-                System.out.println(JwtUtils.getUserType(token));
+//                System.out.println(JwtUtils.getUserType(token));
     //            不是管理员,禁止访问
                     throw new BusinessException();
             }

@@ -5,18 +5,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lbw.srb.common.exception.BusinessException;
-import lbw.srb.core.enums.BorrowerStatusEnum;
 import lbw.srb.core.enums.LendStatusEnum;
 import lbw.srb.core.enums.ReturnMethodEnum;
 import lbw.srb.core.enums.TransTypeEnum;
 import lbw.srb.core.hfb.HfbConst;
 import lbw.srb.core.hfb.RequestHelper;
-import lbw.srb.core.mapper.BorrowerMapper;
 import lbw.srb.core.mapper.LendMapper;
 import lbw.srb.core.mapper.UserAccountMapper;
 import lbw.srb.core.pojo.entity.*;
 import lbw.srb.core.pojo.vo.BorrowInfoApprovalVO;
-import lbw.srb.core.pojo.vo.BorrowerDetailVO;
 import lbw.srb.core.service.*;
 import lbw.srb.core.util.*;
 import lombok.extern.slf4j.Slf4j;
@@ -120,7 +117,7 @@ public class LendServiceImpl extends ServiceImpl<LendMapper, Lend> implements Le
 
 //        更新标的
         lend.setRealAmount(realAmount);
-        LocalDate start = LocalDate.now();
+        LocalDate start = LocalDate.now().plusMonths(1);
         LocalDate end = start.plusMonths(lend.getPeriod());
         lend.setLendStartDate(start);
         lend.setLendEndDate(end);

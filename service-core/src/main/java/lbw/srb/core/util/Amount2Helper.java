@@ -91,7 +91,7 @@ public class Amount2Helper {
     }
 
     public static void main(String[] args) {
-        BigDecimal invest = new BigDecimal("20000"); // 本金
+        BigDecimal invest = new BigDecimal("100000"); // 本金
         int month = 3;
         BigDecimal yearRate = new BigDecimal("0.12"); // 年利率
 

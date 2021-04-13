@@ -6,10 +6,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lbw.srb.common.util.RedisUtil;
 import lbw.srb.core.enums.BorrowerStatusEnum;
 import lbw.srb.core.enums.IntegralEnum;
-import lbw.srb.core.mapper.BorrowerAttachMapper;
 import lbw.srb.core.mapper.BorrowerMapper;
 import lbw.srb.core.mapper.UserInfoMapper;
 import lbw.srb.core.mapper.UserIntegralMapper;
@@ -27,8 +25,6 @@ import lbw.srb.core.service.DictService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,6 +109,14 @@ public class BorrowerServiceImpl extends ServiceImpl<BorrowerMapper, Borrower> i
     }
 
     @Override
+    public BorrowerDetailVO getDetailByUserId(Long userId) {
+        QueryWrapper<Borrower> wrapper = new QueryWrapper<>();
+        wrapper.select("id").eq("user_id",userId);
+        List<Object> objects = borrowerMapper.selectObjs(wrapper);
+        return detail((Long)objects.get(0));
+    }
+
+    @Override
     public BorrowerDetailVO detail(Long id) {
         BorrowerDetailVO borrowerDetailVO = new BorrowerDetailVO();
         QueryWrapper<Borrower> wrapper = new QueryWrapper<>();
@@ -140,14 +144,6 @@ public class BorrowerServiceImpl extends ServiceImpl<BorrowerMapper, Borrower> i
         borrowerDetailVO.setBorrowerAttachVOList(bav);
 
         return borrowerDetailVO;
-    }
-
-    @Override
-    public BorrowerDetailVO getDetailByUserId(Long userId) {
-            QueryWrapper<Borrower> wrapper = new QueryWrapper<>();
-            wrapper.select("id").eq("user_id",userId);
-            List<Object> objects = borrowerMapper.selectObjs(wrapper);
-            return detail((Long)objects.get(0));
     }
 
     @Override

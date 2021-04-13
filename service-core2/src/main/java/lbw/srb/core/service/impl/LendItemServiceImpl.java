@@ -11,9 +11,6 @@ import lbw.srb.core.hfb.FormHelper;
 import lbw.srb.core.hfb.HfbConst;
 import lbw.srb.core.hfb.RequestHelper;
 import lbw.srb.core.mapper.LendItemMapper;
-import lbw.srb.core.mapper.LendMapper;
-import lbw.srb.core.mapper.UserAccountMapper;
-import lbw.srb.core.mapper.UserInfoMapper;
 import lbw.srb.core.pojo.entity.Lend;
 import lbw.srb.core.pojo.entity.LendItem;
 import lbw.srb.core.pojo.entity.TransFlow;
@@ -21,7 +18,6 @@ import lbw.srb.core.pojo.entity.UserInfo;
 import lbw.srb.core.pojo.vo.InvestVO;
 import lbw.srb.core.service.*;
 import lbw.srb.core.util.LendNoUtils;
-import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,8 +43,6 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
     private UserAccountService userAccountService;
     @Autowired
     private UserInfoService userInfoService;
-    @Autowired
-    private UserInfoMapper userInfoMapper;
     @Autowired
     private TransFlowService transFlowService;
     @Autowired
@@ -188,7 +182,7 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
     @Override
     public List<LendItem> findAllByLendId(Long lendId) {
         QueryWrapper<LendItem> wrapper = new QueryWrapper<>();
-        wrapper.eq("lend_id",lendId);
+        wrapper.eq("lend_id",lendId).ne("status",0);
         return baseMapper.selectList(wrapper);
     }
 

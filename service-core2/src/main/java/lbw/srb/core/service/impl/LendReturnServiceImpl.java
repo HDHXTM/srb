@@ -5,19 +5,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.swagger.annotations.ApiModelProperty;
 import lbw.srb.common.exception.Assert;
 import lbw.srb.common.result.ResponseEnum;
+import lbw.srb.core.enums.BorrowInfoStatusEnum;
 import lbw.srb.core.enums.LendStatusEnum;
 import lbw.srb.core.enums.ReturnMethodEnum;
 import lbw.srb.core.enums.TransTypeEnum;
 import lbw.srb.core.hfb.FormHelper;
 import lbw.srb.core.hfb.HfbConst;
 import lbw.srb.core.hfb.RequestHelper;
+import lbw.srb.core.mapper.BorrowInfoMapper;
 import lbw.srb.core.mapper.LendMapper;
 import lbw.srb.core.mapper.LendReturnMapper;
-import lbw.srb.core.mapper.UserInfoMapper;
-import lbw.srb.core.mapper.UserIntegralMapper;
 import lbw.srb.core.pojo.entity.*;
 import lbw.srb.core.service.*;
 import lbw.srb.core.util.*;
@@ -26,10 +25,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.awt.windows.WWindowPeer;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +55,8 @@ public class LendReturnServiceImpl extends ServiceImpl<LendReturnMapper, LendRet
     private UserInfoService userInfoService;
     @Autowired
     private LendItemService lendItemService;
+    @Autowired
+    private BorrowInfoMapper borrowInfoMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -80,7 +80,7 @@ public class LendReturnServiceImpl extends ServiceImpl<LendReturnMapper, LendRet
                 ResponseEnum.NOT_SUFFICIENT_FUNDS_ERROR);
 
         lendReturn.setFee(voteFeeAmt);
-        lendReturn.setReturnDate(LocalDate.now());
+        lendReturn.setRealReturnTime(LocalDateTime.now());
         lendReturn.setStatus(1);
         baseMapper.updateById(lendReturn);
 
@@ -94,6 +94,13 @@ public class LendReturnServiceImpl extends ServiceImpl<LendReturnMapper, LendRet
             flag=true;
 //            加分
             userInfoService.AddIntegral(lend.getUserId(),lend.getAmount().divideToIntegralValue(new BigDecimal(1000)).intValue(),"完成还款");
+
+//            更新borrowInfo为完成
+            UpdateWrapper<BorrowInfo> borrowInfoUpdateWrapper = new UpdateWrapper<>();
+            borrowInfoUpdateWrapper
+                    .set("status", BorrowInfoStatusEnum.FINISH.getStatus())
+                    .eq("id",lendReturn.getBorrowInfoId());
+            borrowInfoMapper.update(null,borrowInfoUpdateWrapper);
         }
 //        扣钱
         userAccount.setAmount(userAccount.getAmount().subtract(totalAmt));
@@ -110,11 +117,13 @@ public class LendReturnServiceImpl extends ServiceImpl<LendReturnMapper, LendRet
 
 //        投资人
         QueryWrapper<LendItemReturn> lendItemReturnQueryWrapper = new QueryWrapper<>();
-        lendItemReturnQueryWrapper.eq("lend_id",lendReturn.getLendId());
+        lendItemReturnQueryWrapper
+                .eq("lend_id",lendReturn.getLendId())
+                .eq("current_period",lendReturn.getCurrentPeriod());
         List<LendItemReturn> lendItemReturns = lendItemReturnService.list(lendItemReturnQueryWrapper);
         for (LendItemReturn lendItemReturn : lendItemReturns) {
 //            回款计划
-            lendItemReturn.setReturnDate(LocalDate.now());
+            lendItemReturn.setRealReturnTime(LocalDateTime.now());
             lendItemReturn.setStatus(1);
             lendItemReturnService.updateById(lendItemReturn);
 

@@ -7,9 +7,6 @@ import lbw.srb.core.pojo.entity.BorrowerAttach;
 import lbw.srb.core.service.BorrowerAttachService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <p>
  * 借款人上传资源表 服务实现类

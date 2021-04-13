@@ -2,10 +2,8 @@ package lbw.srb.core.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lbw.srb.core.enums.BorrowInfoStatusEnum;
-import lbw.srb.core.enums.ReturnMethodEnum;
 import lbw.srb.core.mapper.BorrowInfoMapper;
 import lbw.srb.core.mapper.BorrowerMapper;
 import lbw.srb.core.mapper.IntegralGradeMapper;
