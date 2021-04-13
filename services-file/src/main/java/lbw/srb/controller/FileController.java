@@ -57,9 +57,8 @@ public class FileController {
 //            log.error("下载文件失败", e);
 //        }
 //    }
-    @GetMapping("/admin/img/{imgUrl}")
+    @GetMapping("/img/{imgUrl}")
     public void test(HttpServletResponse response,@PathVariable("imgUrl") String imageUrl) throws IOException {
-//        System.out.println(imageUrl);
         //写给浏览器
         response.setContentType("image/jpeg");
         //浏览器不要缓存
@@ -75,7 +74,7 @@ public class FileController {
      * 通用上传请求
      */
     @PostMapping("/auth/upload")
-    public R uploadFile(MultipartFile file,HttpServletRequest request){
+    public R uploadFile(MultipartFile file){
         // 上传并返回新文件名称
         String fileName;
         try {

@@ -40,7 +40,9 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
         try {
 //        验证token,取id
             Long userId = JwtUtils.getUserId(token);
+            System.out.println(userId);
             if (request.getURI().getPath().contains("admin")&&JwtUtils.getUserType(token) != 0) {
+                System.out.println(JwtUtils.getUserType(token));
     //            不是管理员,禁止访问
                     throw new BusinessException();
             }
@@ -49,6 +51,7 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
             ServerWebExchange mutableExchange = exchange.mutate().request(mutableReq).build();
             return chain.filter(mutableExchange);
         } catch (BusinessException e) {
+            e.printStackTrace();
             ServerHttpResponse response = exchange.getResponse();
             //7. 响应中放入返回的状态吗, 没有权限访问
             response.setStatusCode(HttpStatus.UNAUTHORIZED);

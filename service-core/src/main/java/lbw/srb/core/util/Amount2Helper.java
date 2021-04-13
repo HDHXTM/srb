@@ -91,8 +91,8 @@ public class Amount2Helper {
     }
 
     public static void main(String[] args) {
-        BigDecimal invest = new BigDecimal("12000"); // 本金
-        int month = 12;
+        BigDecimal invest = new BigDecimal("20000"); // 本金
+        int month = 3;
         BigDecimal yearRate = new BigDecimal("0.12"); // 年利率
 
         Map benjin = getPerMonthPrincipal(invest, yearRate, month);

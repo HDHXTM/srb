@@ -23,5 +23,9 @@ public interface BorrowerService extends IService<Borrower> {
 
     BorrowerDetailVO detail(Long id);
 
+    BorrowerDetailVO getDetailByUserId(Long userId);
+
     String approval(BorrowerApprovalVO borrowerApprovalVO);
+
+
 }

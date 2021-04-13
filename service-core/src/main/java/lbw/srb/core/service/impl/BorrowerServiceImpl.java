@@ -113,6 +113,14 @@ public class BorrowerServiceImpl extends ServiceImpl<BorrowerMapper, Borrower> i
     }
 
     @Override
+    public BorrowerDetailVO getDetailByUserId(Long userId) {
+        QueryWrapper<Borrower> wrapper = new QueryWrapper<>();
+        wrapper.select("id").eq("user_id",userId);
+        List<Object> objects = borrowerMapper.selectObjs(wrapper);
+        return detail((Long)objects.get(0));
+    }
+
+    @Override
     public BorrowerDetailVO detail(Long id) {
         BorrowerDetailVO borrowerDetailVO = new BorrowerDetailVO();
         QueryWrapper<Borrower> wrapper = new QueryWrapper<>();
@@ -156,7 +164,7 @@ public class BorrowerServiceImpl extends ServiceImpl<BorrowerMapper, Borrower> i
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void saveInfo(BorrowerVO borrowerVO, Long userId) {
 //        借款表
         Borrower borrower = new Borrower();

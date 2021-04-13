@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: srbCore
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+        #        指定group，不填默认是DEFAULT_GROUP
+        #        group: DEV_GROUP
+        #        要使用的命名空间的id，不填则默认使用public命名空间
+      #        namespace: da8e7afe-6571-4dbb-af33-58ac8a8cdcca
+      discovery:
+        server-addr: localhost:8848
+  profiles:
+    active: dev
+
+

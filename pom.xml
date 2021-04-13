@@ -8,6 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>service-core</module>
+        <module>service-core2</module>
         <module>common</module>
         <module>gateway</module>
         <module>service-sms6666</module>
@@ -168,19 +169,19 @@
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
             </dependency>
-            <!--阿里云SDK远程调用-->
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-core</artifactId>
-                <version>${aliyun-java-sdk-core.version}</version>
-            </dependency>
+<!--            &lt;!&ndash;阿里云SDK远程调用&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.aliyun</groupId>-->
+<!--                <artifactId>aliyun-java-sdk-core</artifactId>-->
+<!--                <version>${aliyun-java-sdk-core.version}</version>-->
+<!--            </dependency>-->
 
-            <!--阿里云文件管理-->
-            <dependency>
-                <groupId>com.aliyun.oss</groupId>
-                <artifactId>aliyun-sdk-oss</artifactId>
-                <version>${aliyun-sdk-oss.version}</version>
-            </dependency>
+<!--            &lt;!&ndash;阿里云文件管理&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.aliyun.oss</groupId>-->
+<!--                <artifactId>aliyun-sdk-oss</artifactId>-->
+<!--                <version>${aliyun-sdk-oss.version}</version>-->
+<!--            </dependency>-->
 
             <!--日期时间工具-->
             <dependency>

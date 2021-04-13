@@ -73,7 +73,7 @@ public class LendReturnServiceImpl implements LendReturnService {
 
 		double t1 = voteFeeAmt.add(transitAmtTotal).doubleValue();//Double.parseDouble(voteFeeAmt) + Double.parseDouble(transitAmtTotal);
 		double t2 = totalAmt.doubleValue();
-		if(t1 != t2) {
+		if(t1 > t2) {
 			throw new HfbException(ResultCodeEnum.RETURN_AMMOUNT_MORE_ERROR);
 		}
 
