@@ -16,10 +16,12 @@ import lbw.srb.core.util.Amount3Helper;
 import lbw.srb.core.util.Amount4Helper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -125,5 +127,20 @@ public class LendItemReturnServiceImpl extends ServiceImpl<LendItemReturnMapper,
         QueryWrapper<LendItemReturn> wrapper = new QueryWrapper<>();
         wrapper.eq("lend_id",lendId).eq("invest_user_id",userId);
         return baseMapper.selectList(wrapper);
+    }
+
+    //每天0点查看是否有逾期单
+    @Scheduled(cron = "0 0 0 * * *")
+    public void task(){
+        QueryWrapper<LendItemReturn> wrapper = new QueryWrapper<>();
+        wrapper.eq("status", 0)
+                .lt("return_date", LocalDate.now());
+        List<LendItemReturn> lendItemReturns = baseMapper.selectList(wrapper);
+        for (LendItemReturn lendItemReturn : lendItemReturns) {
+            lendItemReturn.setOverdue(true);
+            lendItemReturn.setOverdueTotal(lendItemReturn.getTotal());
+            baseMapper.updateById(lendItemReturn);
+            log.warn("逾期！！"+lendItemReturn);
+        }
     }
 }

@@ -3,6 +3,7 @@ package lbw.srb.core.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lbw.srb.common.exception.BusinessException;
 import lbw.srb.core.enums.LendStatusEnum;
@@ -19,6 +20,7 @@ import lbw.srb.core.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -198,5 +200,24 @@ public class LendServiceImpl extends ServiceImpl<LendMapper, Lend> implements Le
         lend.setCheckAdminId(userId);
 
         baseMapper.insert(lend);
+    }
+
+//每天0点查看是否有逾期单
+    @Scheduled(cron = "0 0 0 * * *")
+    public void task(){
+        QueryWrapper<Lend> wrapper = new QueryWrapper<>();
+        wrapper.eq("status", LendStatusEnum.PAY_RUN.getStatus())
+                .lt("lend_end_date", LocalDate.now());
+        List<Lend> lends = baseMapper.selectList(wrapper);
+        ArrayList<Long> list = new ArrayList<>();
+        for (Lend lend : lends) {
+            log.warn("逾期！！！"+lend);
+            list.add(lend.getId());
+            lend.setStatus(LendStatusEnum.OVERDUE.getStatus());
+        }
+        UpdateWrapper<Lend> lendUpdateWrapper = new UpdateWrapper<>();
+        lendUpdateWrapper.set("status",LendStatusEnum.OVERDUE.getStatus())
+                .in("id",list);
+        baseMapper.update(null,lendUpdateWrapper);
     }
 }

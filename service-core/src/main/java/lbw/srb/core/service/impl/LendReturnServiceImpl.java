@@ -22,6 +22,7 @@ import lbw.srb.core.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.awt.windows.WWindowPeer;
@@ -129,7 +130,7 @@ public class LendReturnServiceImpl extends ServiceImpl<LendReturnMapper, LendRet
             lendItemReturnService.updateById(lendItemReturn);
 
             LendItem lendItem = lendItemService.getById(lendItemReturn.getLendItemId());
-            lendItem.setRealAmount(lendItem.getRealAmount().add(lendItemReturn.getInvestAmount()));
+            lendItem.setRealAmount(lendItem.getRealAmount().add(lendItemReturn.getInterest()));
 //            是最后一次
             if (flag)
                 lendItem.setStatus(2);
@@ -256,5 +257,20 @@ public class LendReturnServiceImpl extends ServiceImpl<LendReturnMapper, LendRet
         QueryWrapper<LendReturn> wrapper = new QueryWrapper<>();
         wrapper.eq("lend_id",lendId);
         return baseMapper.selectList(wrapper);
+    }
+
+    //每天0点查看是否有逾期单
+    @Scheduled(cron = "0 0 0 * * *")
+    public void task(){
+        QueryWrapper<LendReturn> wrapper = new QueryWrapper<>();
+        wrapper.eq("status", 0)
+                .lt("return_date", LocalDate.now());
+        List<LendReturn> lendReturns = baseMapper.selectList(wrapper);
+        for (LendReturn lendReturn : lendReturns) {
+            lendReturn.setOverdue(true);
+            lendReturn.setOverdueTotal(lendReturn.getTotal());
+            baseMapper.updateById(lendReturn);
+            log.warn("逾期！！"+lendReturn);
+        }
     }
 }
