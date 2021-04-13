@@ -1,0 +1,12 @@
+#在nacos上的配置
+#spring:
+#  rabbitmq:
+#    host: 192.168.1.105
+#    port: 5672
+##短信服务配置
+#txSms:
+#  secretId:
+#  secretKey:
+#  templateID:
+#  sign:
+#  smsSdkAppid:

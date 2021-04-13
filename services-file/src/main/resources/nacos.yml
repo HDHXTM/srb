@@ -1,0 +1,4 @@
+#在nacos上的配置
+#conf:
+#  filePath: D:\study\java\mySrb\services-file\file
+#  filePrefix: http://localhost/
